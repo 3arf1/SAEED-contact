@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SAEED | تحميل الفلاير والملفات</title><style>
+:root{color-scheme:light;--blue:#647d91;--copper:#b58f6b;--ink:#202327;--line:#d8dddf}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#f5f6f6;color:var(--ink)}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background-image:radial-gradient(#b4bdc3 1px,transparent 1.4px);background-size:15px 15px;opacity:.5}
+main{max-width:620px;margin:5vh auto 24px;padding:24px;background:white;border:1px solid var(--line);border-radius:17px;box-shadow:0 16px 56px #0000000f}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:3px solid var(--copper);padding-bottom:18px}
+strong.logo{font-size:30px;letter-spacing:3px;color:#202327}header small{font-size:13px;color:var(--blue)}h1{font-size:24px;margin:22px 0 9px}
+p{color:#52606b;line-height:1.75}section{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:23px}
+button{border:1px solid #b8c2c8;background:#fff;color:var(--ink);font:600 15px Arial,Tahoma,sans-serif;padding:18px 12px;border-radius:11px;cursor:pointer;line-height:1.5;min-height:77px}
+button.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+button.zip{grid-column:1/-1;color:#fff;background:#1f303b;border-color:#1f303b}
+button:hover{box-shadow:0 4px 12px #00000020}
+button:disabled{opacity:.55;cursor:wait}#status{min-height:22px;font-size:13px;color:var(--blue);font-weight:bold;margin-top:15px}
+.links{border-top:1px solid var(--line);margin-top:20px;padding-top:15px;text-align:center;font-size:13px}
+a{color:#49687f}
+@media(max-width:460px){main{margin:0;border-radius:0;min-height:100vh;padding:21px 15px}section{grid-template-columns:1fr}button.zip{grid-column:auto}h1{font-size:22px}}
+</style></head><body><main>
+<header><div><strong class="logo">SAEED</strong><br><small>مركز الشارقة لخدمات المستثمرين</small></div><small>A5 · 148 × 210 mm<br>VERSION 32</small></header>
+<h1>تحميل الفلاير المحدث</h1>
+<p>النسخة ذات الوجهين بالهوية المعتمدة والشعارات والصور والباركود، مع العبارة الجديدة بالعربية والإنجليزية.</p>
+<section>
+<button id="pdf" class="primary">تحميل الفلاير PDF<br><small>الوجهين، جاهز للطباعة</small></button>
+<button id="front">تحميل الوجه الأمامي PNG<br><small>الصورة عالية الوضوح</small></button>
+<button id="back">تحميل الوجه الخلفي PNG<br><small>مع العبارة الجديدة والباركود</small></button>
+<button id="all" class="zip">تحميل جميع ملفات الفلاير ZIP<br><small>PDF + PNG للوجهين</small></button>
+</section>
+<p id="status" role="status"></p>
+<div class="links"><a href="/">العودة إلى صفحة الباركود</a> · <a href="/flyer-print.html">عرض الفلاير</a></div>
+</main>
+<script src="/flyer-v32.js?v=32"></script>
+<script>
+(function(){
+'use strict';
+const $=id=>document.getElementById(id), labels=['pdf','front','back','all'].map($),st=$('status');
+function say(v){st.textContent=v}
+function download(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},30000)}
+async function imageBlob(n){const u=await window.SaeedHQ31.loadPage(n),r=await fetch(u);if(!r.ok)throw Error('Page unavailable');const b=await r.blob(),img=await createImageBitmap(b),c=document.createElement('canvas');c.width=img.width;c.height=img.height;c.getContext('2d').drawImage(img,0,0);img.close();return await new Promise((ok,no)=>c.toBlob(v=>v?ok(v):no(Error('PNG export failed')),'image/png'))}
+async function pdfBlob(){const u=await window.SaeedHQ31.preparePDF(),r=await fetch(u);if(!r.ok)throw Error('PDF unavailable');return await r.blob()}
+async function job(action){labels.forEach(v=>v.disabled=true);say('جارٍ تجهيز الملفات بجودتها الأصلية…');try{await action();say('تم تجهيز الملف وتنزيله بنجاح.')}catch(e){console.error(e);say('تعذر تنزيل الملف. يرجى المحاولة مرة أخرى أو تحديث الصفحة.')}finally{labels.forEach(v=>v.disabled=false)}}
+$('pdf').onclick=()=>job(async()=>download(await pdfBlob(),'SAEED_A5_Flyer_v32.pdf'));
+$('front').onclick=()=>job(async()=>download(await imageBlob(0),'SAEED_A5_Front_v32.png'));
+$('back').onclick=()=>job(async()=>download(await imageBlob(1),'SAEED_A5_Back_v32.png'));
+function crc32(a){let c=-1;for(const b of a){c^=b;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0)}return (c^-1)>>>0}
+function zip(files){const e=new TextEncoder(),data=[],central=[];let pos=0;const stamp=(v,i,n)=>{if(n===2)v.setUint16(i,n===2?0:0,true)};
+function write16(d,i,v){d.setUint16(i,v,true)}function write32(d,i,v){d.setUint32(i,v,true)}
+for(const f of files){const name=e.encode(f.name),bin=f.data,crc=crc32(bin),hd=new Uint8Array(30+name.length),v=new DataView(hd.buffer);write32(v,0,0x04034b50);write16(v,4,20);write32(v,14,crc);write32(v,18,bin.length);write32(v,22,bin.length);write16(v,26,name.length);hd.set(name,30);data.push(hd,bin);
+const cc=new Uint8Array(46+name.length),w=new DataView(cc.buffer);write32(w,0,0x02014b50);write16(w,4,20);write16(w,6,20);write32(w,16,crc);write32(w,20,bin.length);write32(w,24,bin.length);write16(w,28,name.length);write32(w,42,pos);cc.set(name,46);central.push(cc);pos+=hd.length+bin.length}
+const centralLen=central.reduce((a,b)=>a+b.length,0),tail=new Uint8Array(22),tv=new DataView(tail.buffer);write32(tv,0,0x06054b50);write16(tv,8,files.length);write16(tv,10,files.length);write32(tv,12,centralLen);write32(tv,16,pos);return new Blob([...data,...central,tail],{type:'application/zip'})}
+$('all').onclick=()=>job(async()=>{const [pdf,front,back]=await Promise.all([pdfBlob(),imageBlob(0),imageBlob(1)]),entries=[];for(const [name,blob] of [['SAEED_A5_Flyer_v32.pdf',pdf],['SAEED_A5_Front_v32.png',front],['SAEED_A5_Back_v32.png',back]])entries.push({name,data:new Uint8Array(await blob.arrayBuffer())});download(zip(entries),'SAEED_Flyer_v32_All_Files.zip')});
+})();
+</script></body></html>
