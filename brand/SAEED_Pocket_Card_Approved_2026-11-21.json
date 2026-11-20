@@ -1,0 +1,53 @@
+{
+  "brand": "Sharjah Investors Services Center (SAEED)",
+  "scope": "Approved pocket QR business card design",
+  "approved_on": "2026-11-21",
+  "card_size_mm": [
+    55,
+    90
+  ],
+  "color_swatches": {
+    "medium_blue": {
+      "hex": "#688092",
+      "rgb": [
+        104,
+        128,
+        146
+      ],
+      "source": "user supplied image(20261120-230547).png"
+    },
+    "copper": {
+      "hex": "#B1855B",
+      "rgb": [
+        177,
+        133,
+        91
+      ],
+      "source": "user supplied image(20261120-230603).png"
+    }
+  },
+  "typography": {
+    "arabic": "TheSans Plain.ttf",
+    "english": [
+      "GothamMedium.ttf",
+      "Gotham-Bold.otf"
+    ]
+  },
+  "identity": {
+    "original_wordmark_and_descriptor": "Preserve the original lockup together; never redraw",
+    "back_logo": "geometrically center horizontally and vertically",
+    "pattern": "Regular, geometric dot grid as in SAEED brand guidelines",
+    "accent_gradients": false,
+    "photo": "PHOTO_05_interior_symmetrical_lounge.jpg supplied by the center",
+    "working_qr_url": "https://saeed-qr.onrender.com/"
+  },
+  "print": {
+    "dpi": 600,
+    "trim_mm": [
+      55,
+      90
+    ],
+    "bleed_mm": 3,
+    "face_count": 2
+  }
+}
