@@ -86,6 +86,17 @@ const b=toBytes(encoded);
 const stream=new Blob([b]).stream().pipeThrough(new DecompressionStream('deflate'));
 const raw=new Uint8Array(await new Response(stream).arrayBuffer());
 apply(inkSprite(raw));
+document.documentElement.classList.add('saeed-type-ready');
 }
-run().catch(e=>console.warn('SAEED: original copy preserved if typography asset unavailable',e));
+run().catch(e=>{
+ console.warn('SAEED typography unavailable; using final-copy fallback',e);
+ const caption=document.querySelector('.flyer-card .flyer-caption');
+ if(caption){
+  caption.replaceChildren();
+  for(const [lang,value] of [['ar','عرض الخدمات'],['en','View Services']]){
+   const label=document.createElement('span');label.className='word '+lang;label.textContent=value;caption.appendChild(label);
+  }
+ }
+ document.documentElement.classList.add('saeed-type-ready');
+});
 })();
