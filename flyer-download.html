@@ -17,7 +17,7 @@ button:disabled{opacity:.55;cursor:wait}#status{min-height:22px;font-size:13px;c
 a{color:#49687f}
 @media(max-width:460px){main{margin:0;border-radius:0;min-height:100vh;padding:21px 15px}section{grid-template-columns:1fr}button.zip{grid-column:auto}h1{font-size:22px}}
 </style></head><body><main>
-<header><div><strong class="logo">SAEED</strong><br><small>مركز الشارقة لخدمات المستثمرين</small></div><small>A5 · 148 × 210 mm<br>VERSION 45</small></header>
+<header><div><strong class="logo">SAEED</strong><br><small>مركز الشارقة لخدمات المستثمرين</small></div><small>A5 · 148 × 210 mm<br>VERSION 46</small></header>
 <h1>تحميل الفلاير المحدث</h1>
 <p>النسخة ذات الوجهين بالهوية المعتمدة والشعارات والصور والباركود، مع العبارة الجديدة بالعربية والإنجليزية.</p>
 <section>
@@ -35,7 +35,7 @@ a{color:#49687f}
 <script src="/flyer-card-borders-v36.js?v=36"></script>
 <script src="/flyer-wave-cards-v37.js?v=37"></script>
 <script src="/flyer-qr-transparent-v38.js?v=38"></script>
-<script src="/flyer-text-v45.js?v=45"></script>
+<script src="/flyer-text-v46.js?v=46"></script>
 <script>
 (function(){
 'use strict';
@@ -45,15 +45,15 @@ function download(blob,name){const u=URL.createObjectURL(blob),a=document.create
 async function imageBlob(n){const u=await window.SaeedHQ31.loadPage(n),r=await fetch(u);if(!r.ok)throw Error('Page unavailable');const b=await r.blob(),img=await createImageBitmap(b),c=document.createElement('canvas');c.width=img.width;c.height=img.height;c.getContext('2d').drawImage(img,0,0);img.close();return await new Promise((ok,no)=>c.toBlob(v=>v?ok(v):no(Error('PNG export failed')),'image/png'))}
 async function pdfBlob(){const u=await window.SaeedHQ31.preparePDF(),r=await fetch(u);if(!r.ok)throw Error('PDF unavailable');return await r.blob()}
 async function job(action){labels.forEach(v=>v.disabled=true);say('جارٍ تجهيز الملفات بجودتها الأصلية…');try{await action();say('تم تجهيز الملف وتنزيله بنجاح.')}catch(e){console.error(e);say('تعذر تنزيل الملف. يرجى المحاولة مرة أخرى أو تحديث الصفحة.')}finally{labels.forEach(v=>v.disabled=false)}}
-$('pdf').onclick=()=>job(async()=>download(await pdfBlob(),'SAEED_A5_Flyer_v45_Bilingual_Spacing_Fixed.pdf'));
-$('front').onclick=()=>job(async()=>download(await imageBlob(0),'SAEED_A5_Front_v45.png'));
-$('back').onclick=()=>job(async()=>download(await imageBlob(1),'SAEED_A5_Back_v45_Bilingual_Spacing_Fixed.png'));
+$('pdf').onclick=()=>job(async()=>download(await pdfBlob(),'SAEED_A5_Flyer_v46_Grouped_Text_QR_Fixed.pdf'));
+$('front').onclick=()=>job(async()=>download(await imageBlob(0),'SAEED_A5_Front_v46.png'));
+$('back').onclick=()=>job(async()=>download(await imageBlob(1),'SAEED_A5_Back_v46_Grouped_Text.png'));
 function crc32(a){let c=-1;for(const b of a){c^=b;for(let k=0;k<8;k++)c=(c>>>1)^((c&1)?0xedb88320:0)}return (c^-1)>>>0}
 function zip(files){const e=new TextEncoder(),data=[],central=[];let pos=0;const stamp=(v,i,n)=>{if(n===2)v.setUint16(i,n===2?0:0,true)};
 function write16(d,i,v){d.setUint16(i,v,true)}function write32(d,i,v){d.setUint32(i,v,true)}
 for(const f of files){const name=e.encode(f.name),bin=f.data,crc=crc32(bin),hd=new Uint8Array(30+name.length),v=new DataView(hd.buffer);write32(v,0,0x04034b50);write16(v,4,20);write32(v,14,crc);write32(v,18,bin.length);write32(v,22,bin.length);write16(v,26,name.length);hd.set(name,30);data.push(hd,bin);
 const cc=new Uint8Array(46+name.length),w=new DataView(cc.buffer);write32(w,0,0x02014b50);write16(w,4,20);write16(w,6,20);write32(w,16,crc);write32(w,20,bin.length);write32(w,24,bin.length);write16(w,28,name.length);write32(w,42,pos);cc.set(name,46);central.push(cc);pos+=hd.length+bin.length}
 const centralLen=central.reduce((a,b)=>a+b.length,0),tail=new Uint8Array(22),tv=new DataView(tail.buffer);write32(tv,0,0x06054b50);write16(tv,8,files.length);write16(tv,10,files.length);write32(tv,12,centralLen);write32(tv,16,pos);return new Blob([...data,...central,tail],{type:'application/zip'})}
-$('all').onclick=()=>job(async()=>{const [pdf,front,back]=await Promise.all([pdfBlob(),imageBlob(0),imageBlob(1)]),entries=[];for(const [name,blob] of [['SAEED_A5_Flyer_v45_Bilingual_Spacing_Fixed.pdf',pdf],['SAEED_A5_Front_v45.png',front],['SAEED_A5_Back_v45_Bilingual_Spacing_Fixed.png',back]])entries.push({name,data:new Uint8Array(await blob.arrayBuffer())});download(zip(entries),'SAEED_Flyer_v45_All_Files.zip')});
+$('all').onclick=()=>job(async()=>{const [pdf,front,back]=await Promise.all([pdfBlob(),imageBlob(0),imageBlob(1)]),entries=[];for(const [name,blob] of [['SAEED_A5_Flyer_v46_Grouped_Text_QR_Fixed.pdf',pdf],['SAEED_A5_Front_v46.png',front],['SAEED_A5_Back_v46_Grouped_Text.png',back]])entries.push({name,data:new Uint8Array(await blob.arrayBuffer())});download(zip(entries),'SAEED_Flyer_v46_All_Files.zip')});
 })();
 </script></body></html>
