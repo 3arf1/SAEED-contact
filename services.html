@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f7f7">
+<title>SAEED | عرض الخدمات</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#f6f7f7;overflow-x:hidden}
+body{font-family:Arial,Tahoma,sans-serif;color:#263b4c}
+main{max-width:760px;margin:0 auto;padding:0}
+.sheet{position:relative;overflow:hidden;width:100%;margin:0 auto;background:#fff;min-height:60vh;line-height:0}
+.sheet img.flyer-sheet-image{width:100%;height:auto;display:block}
+.sheet+.sheet{margin-top:2px}
+.loading{position:absolute;top:42%;inset-inline:0;text-align:center;color:#647d91;font-size:14px;line-height:1.8;padding:20px;z-index:0}
+.flyer-sheet-image{position:relative;z-index:1}
+.sheet:not(.loaded) .flyer-sheet-image{visibility:hidden}
+.sheet.loaded .loading{display:none}
+.error{line-height:1.8;text-align:center;padding:36px 20px;color:#647d91;display:none}
+.sheet.failed{min-height:120px}.sheet.failed .loading{display:none}.sheet.failed .error{display:block}
+@media print{html,body{background:white}.sheet{margin:0;max-width:none;page-break-after:always}.loading,.error{display:none!important}}
+</style>
+</head>
+<body>
+<main aria-label="دليل خدمات مركز سعيد | SAEED Services Flyer">
+<section class="sheet" id="flyer-page-frame" aria-label="الوجه الأول: الخدمات">
+ <div class="loading">جارٍ عرض الفلاير…</div>
+ <img class="flyer-sheet-image" id="flyer-page-image" alt="الوجه الأمامي — الخدمات" decoding="async">
+ <div class="error">تعذر عرض الوجه الأول. <a href="/services.html">إعادة المحاولة</a></div>
+</section>
+<section class="sheet" id="back-sheet" aria-label="الوجه الثاني: عن المركز">
+ <div class="loading">جارٍ عرض الوجه الثاني…</div>
+ <img class="flyer-sheet-image" id="flyer-back-image" alt="الوجه الخلفي — عن المركز" decoding="async">
+ <div class="error">تعذر عرض الوجه الثاني. <a href="/services.html">إعادة المحاولة</a></div>
+</section>
+</main>
+<script src="/flyer-v32.js?v=32"></script>
+<script src="/flyer-polish-v33.js?v=33"></script>
+<script src="/flyer-vector-upgrade-v34.js?v=34"></script>
+<script src="/flyer-card-borders-v36.js?v=36"></script>
+<script src="/flyer-wave-cards-v37.js?v=37"></script>
+<script src="/flyer-qr-transparent-v38.js?v=38"></script>
+<script>
+(function(){
+'use strict';
+function show(p,imgId){
+  var img=document.getElementById(imgId),box=img.closest('.sheet');
+  if(!window.SaeedHQ31||!window.SaeedHQ31.loadPage){box.classList.add('failed');return;}
+  window.SaeedHQ31.loadPage(p).then(function(src){
+    img.onload=function(){box.classList.add('loaded')};
+    img.onerror=function(){box.classList.add('failed')};
+    img.src=src;
+    if(img.complete&&img.naturalWidth)box.classList.add('loaded');
+  },function(e){console.warn('SAEED flyer page '+p,e);box.classList.add('failed')});
+}
+show(0,'flyer-page-image');
+show(1,'flyer-back-image');
+})();
+</script>
+</body>
+</html>
