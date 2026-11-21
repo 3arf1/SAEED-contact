@@ -1,0 +1,22 @@
+name: Export approved SAEED A5 flyer v32 (PDF)
+on:
+  push:
+    branches:
+      - export-final-flyer-v32-20261121
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  flyer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild verified exact final v32 PDF
+        run: python scripts/export_final_flyer_v32.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SAEED-Final-Flyer-v32
+          path: SAEED_A5_Flyer_FINAL_v32.pdf
+          if-no-files-found: error
+          retention-days: 30
